@@ -1,27 +1,27 @@
 let playersQuantity;
+let sum = 0;
 let currentPlayerIndex = 0;
 
 const pawnsColors = ["Czerwony", "Zielony", "Pomaranczowy", "Zolty", "Niebieski"];
 
 const Cards = [
-    "Advance to Go (Collect $200)",
-    "Bank error in your favor – Collect $200",
-    "Doctor's fees – Pay $50",
-    "From sale of stock you get $50",
-    "Get Out of Jail Free – This card may be kept until needed, or sold",
-    "Go to Jail – Go directly to jail – Do not pass Go, do not collect $200",
-    "Grand Opera Night – Collect $50 from every player for opening night seats",
-    "Holiday Fund matures - Receive $100",
-    "Income tax refund – Collect $20",
-    "It is your birthday - Collect $10 from every player",
-    "Life insurance matures – Collect $100",
-    "Hospital Fees – Pay $100",
-    "School fees – Pay $50",
-    "Receive $25 consultancy fee",
-    "You are assessed for street repairs – $40 per house, $115 per hotel",
-    "You have won second prize in a beauty contest – Collect $10",
-    "You inherit $100",
-    "Your Christmas fund matures - Receive $100",
+    "Przejdź na pole 'Start' (Zbierz 200 zł)",
+    "Błąd banku na twoją korzyść – Zbierz 200 zł",
+    "Opłata za wizytę u lekarza – Zapłać 50 zł",
+    "Sprzedaż akcji przynosi ci 50 zł",
+    "Wyjście z więzienia za darmo – Kartę tę można zachować do użycia lub sprzedaży",
+    "Idziesz do więzienia – Idziesz bezpośrednio do więzienia – Nie przechodź przez pole 'Start', nie zbieraj 200 zł",
+    "Noc Wielkiej Opery – Zbierz 50 zł od każdego gracza za bilety na noc premiery",
+    "Fundusz wakacyjny dojrzał – Odbierz 100 zł",
+    "Zwrot podatku dochodowego – Zbierz 20 zł",
+    "Twoje urodziny - Zbierz 10 zł od każdego gracza",
+    "Polisa na życie sie skonczyla – Odbierz 100 zł",
+    "Opłaty szpitalne – Zapłać 100 zł",
+    "Opłaty szkolne – Zapłać 50 zł",
+    "Otrzymujesz 25 zł za konsultację",
+    "Zdobyłeś drugą nagrodę w konkursie piękności – Zbierz 10 zł",
+    "Odziedziczasz 100 zł",
+    "Twój fundusz świąteczny dojrzał – Odbierz 100 zł"
 ];
 
 // pole 1 nic nie oznacza pole 2 oznacza ze mozna kupic pole a 21 to koleje
@@ -147,7 +147,7 @@ function updateDisplay() {
 }
 
 function movePlayer() {
-    let movesQuantity = 6;
+    let movesQuantity = Math.floor(Math.random() * 6) + 1;;
     //Math.floor(Math.random() * 6) + 1;
     document.querySelector("#dice").disabled = true;
     let player = players[currentPlayerIndex];
@@ -235,6 +235,36 @@ function cardsRolling(amount) {
         let whichCard = Math.floor(Math.random() * Cards.length);
         setTimeout(() => document.querySelector("#notifications").innerText = Cards[whichCard], amount*500);
         setTimeout(() => document.querySelector("#notifications").innerText = "", amount*2000);
+
+        if(whichCard === 1) {
+            pawnMoving(player.getLocation, 0);
+        }else if(whichCard === 2) {
+            player.addMoney(200);
+        }else if(whichCard === 3) {
+            player.subtractMoney(50);
+        }else if(whichCard === 4) {
+            player.subtractJailTime();
+        }else if(whichCard === 5) {
+            goToJail();
+        }else if(whichCard === 6) {
+            for(let i=0;i<players.length;i++) {
+                players[i].subtractMoney(50);
+            }
+        }else if(whichCard === 7) {
+            player.addMoney(100);
+        }else if(whichCard === 8) {
+            player.addMoney(20);
+        }else if(whichCard === 9) {
+            for(let i=0;i<players.length;i++) {
+                if(i!==currentPlayerIndex) {
+                    players[i].subtractMoney(10);
+                    sum += 10;
+                }
+            }
+            player.addMoney(sum);
+        }else if(whichCard === 10) {
+            player.addMoney(20);
+        }
     }
 }
 
