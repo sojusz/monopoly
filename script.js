@@ -24,6 +24,12 @@ const Cards = [
     "Twój fundusz świąteczny dojrzał – Odbierz 100 zł"
 ];
 
+const placesWithHouses = [["Mediterranean Avenue", 0], ["Baltic Avenue", 0], ["Oriental Avenue", 0], ["Oriental Avenue", 0],
+["Vermont Avenue", 0], ["Connecticut Avenue", 0], ["St. Charles Place", 0], ["States Avenue", 0], ["Virginia Avenue", 0],
+["St. James Place", 0], ["Tennessee Avenue", 0], ["New York Avenue", 0], ["Kentucky Avenue", 0], ["Indiana Avenue", 0],
+["Illinois Avenue", 0], ["Atlantic Avenue", 0], ["Ventnor Avenue", 0], ["Marvin Gardens", 0], ["Pacific Avenue", 0],
+["North Carolina Avenue", 0], ["Pennsylvania Avenue", 0], ["Park Place", 0], ["Boardwalk", 0]]
+
 // pole 1 nic nie oznacza pole 2 oznacza ze mozna kupic pole a 21 to koleje
 const placesOnMap = [["Start", 0, 1, ""], ["Mediterranean Avenue", 60, 2, "brown"], ["Community Chest", 0, 1, ""],
     ["Baltic Avenue", 60, 2, "brown"], ["Income Tax", 200, 1, ""], ["Reading Railroad", 200, 2, "railroad"],
@@ -36,7 +42,7 @@ const placesOnMap = [["Start", 0, 1, ""], ["Mediterranean Avenue", 60, 2, "brown
     ["Atlantic Avenue", 260, 2, "yellow"], ["Ventnor Avenue", 260, 2, "yellow"], ["Water Works", 150, 2, "needs"],
     ["Marvin Gardens", 280, 2, "yellow"], ["Go To Jail", 0, 1, ""], ["Pacific Avenue", 300, 2, "green"],
     ["North Carolina Avenue", 300, 2, "green"], ["Community Chest", 0, 1, ""], ["Pennsylvania Avenue", 320, 2, "green"],
-    ["Short Line", 200, 2, "railroad"], ["Chance", 0, 1, ""], ["Park PLace", 350, 2, "blue"], ["Luxury Tax", 100, 1, ""],
+    ["Short Line", 200, 2, "railroad"], ["Chance", 0, 1, ""], ["Park Place", 350, 2, "blue"], ["Luxury Tax", 100, 1, ""],
     ["Boardwalk", 400, 2, "blue"]];
 
 const totalPropertiesByColor = {
@@ -135,7 +141,6 @@ function choice(e) {
         }
         updateDisplay();
     }
-    players[0].subtractJailTime();
 }
 
 function updateDisplay() {
@@ -143,17 +148,19 @@ function updateDisplay() {
     document.querySelector("#whichPlayer").innerText = `Gracz ${currentPlayerIndex + 1} (${pawnsColors[currentPlayerIndex]})`;
     document.querySelector("#exactPlace").innerText = "Jestes na polu: " + placesOnMap[(player.getLocation()-1)][0];
     document.querySelector("#money").innerText = "Pieniadze: " + player.getMoney();
-    document.querySelector("#houses").innerText = "Kupione domy:\n" + player.getHause().join(", ");
+    document.querySelector("#houses").innerText = `Kupione domy:\n ${player.getHause()} ${player.hauseLocation}`;
 }
 
+// .join(", ")
+
 function movePlayer() {
-    let movesQuantity = Math.floor(Math.random() * 6) + 1;;
+    let movesQuantity = 6;
     //Math.floor(Math.random() * 6) + 1;
     document.querySelector("#dice").disabled = true;
     let player = players[currentPlayerIndex];
     if (player.getJailTime()>0) {
         player.subtractJailTime();
-        currentPlayerIndex++;
+        (currentPlayerIndex++)%players.length;
         player = players[currentPlayerIndex];
         updateDisplay();
     }
@@ -219,9 +226,11 @@ function payTaxes(amount) {
         if (players[i].getHause().includes(placesOnMap[player.getLocation()-1][0]) && i!==currentPlayerIndex) {
             if (checkFullSet(players[i], placesOnMap[player.getLocation()-1][3])) {
                 player.subtractMoney((placesOnMap[player.getLocation()-1][1]*2));
+                players[i].addMoney((placesOnMap[player.getLocation()-1][1]*2));
                 setTimeout(() => document.querySelector("#notifications").innerText = `Pobrano ${(placesOnMap[player.getLocation()-1][1]*2)}M za wejscie na posesje`, amount*500);
             }else {
                 player.subtractMoney(placesOnMap[player.getLocation()-1][1]);
+                players[i].addMoney(placesOnMap[player.getLocation()-1][1]);
                 setTimeout(() => document.querySelector("#notifications").innerText = `Pobrano ${placesOnMap[player.getLocation()-1][1]}M za wejscie na posesje`, amount*500);
             }
             setTimeout(() => document.querySelector("#notifications").innerText = "", amount*2000);
@@ -236,12 +245,14 @@ function cardsRolling(amount) {
         setTimeout(() => document.querySelector("#notifications").innerText = Cards[whichCard], amount*500);
         setTimeout(() => document.querySelector("#notifications").innerText = "", amount*2000);
 
-        if(whichCard === 1) {
+        if(whichCard === 0) {
             pawnMoving(player.getLocation, 0);
-        }else if(whichCard === 2) {
+        }else if(whichCard === 1) {
             player.addMoney(200);
-        }else if(whichCard === 3) {
+        }else if(whichCard === 2) {
             player.subtractMoney(50);
+        }else if(whichCard === 3) {
+            player.addMoney(50);
         }else if(whichCard === 4) {
             player.subtractJailTime();
         }else if(whichCard === 5) {
@@ -263,7 +274,19 @@ function cardsRolling(amount) {
             }
             player.addMoney(sum);
         }else if(whichCard === 10) {
-            player.addMoney(20);
+            player.addMoney(100);
+        }else if(whichCard === 11) {
+            player.subtractMoney(100);
+        }else if(whichCard === 12) {
+            player.subtractMoney(50);
+        }else if(whichCard === 13) {
+            player.addMoney(25);
+        }else if(whichCard === 14) {
+            player.addMoney(10);
+        }else if(whichCard === 15) {
+            player.add(100);
+        }else if(whichCard === 16) {
+            player.add(100);
         }
     }
 }
