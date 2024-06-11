@@ -24,26 +24,20 @@ const Cards = [
     "Twój fundusz świąteczny dojrzał – Odbierz 100 zł"
 ];
 
-const placesWithHouses = [["Mediterranean Avenue", 0], ["Baltic Avenue", 0], ["Oriental Avenue", 0], ["Oriental Avenue", 0],
-["Vermont Avenue", 0], ["Connecticut Avenue", 0], ["St. Charles Place", 0], ["States Avenue", 0], ["Virginia Avenue", 0],
-["St. James Place", 0], ["Tennessee Avenue", 0], ["New York Avenue", 0], ["Kentucky Avenue", 0], ["Indiana Avenue", 0],
-["Illinois Avenue", 0], ["Atlantic Avenue", 0], ["Ventnor Avenue", 0], ["Marvin Gardens", 0], ["Pacific Avenue", 0],
-["North Carolina Avenue", 0], ["Pennsylvania Avenue", 0], ["Park Place", 0], ["Boardwalk", 0]]
-
 // pole 1 nic nie oznacza pole 2 oznacza ze mozna kupic pole a 21 to koleje
-const placesOnMap = [["Start", 0, 1, ""], ["Mediterranean Avenue", 60, 2, "brown"], ["Community Chest", 0, 1, ""],
-    ["Baltic Avenue", 60, 2, "brown"], ["Income Tax", 200, 1, ""], ["Reading Railroad", 200, 2, "railroad"],
-    ["Oriental Avenue", 100, 2, "lightbue"], ["Chance", 0, 1, ""], ["Vermont Avenue", 100, 2, "lightblue"],
-    ["Connecticut Avenue", 120, 2, "lightbue"], ["Jail", 0, 1, ""], ["St. Charles Place", 140, 2, "pink"],
-    ["Electric Company", 150, 2, "needs"], ["States Avenue", 140, 2, "pink"], ["Virginia Avenue", 160, 2, "pink"],
-    ["Pennsylvania Railroad", 200, 2, "railroad"], ["St. James Place", 180, 2, "orange"], ["Community Chest", 0, 1, ""],
-    ["Tennessee Avenue", 180, 2, "orange"], ["New York Avenue", 200, 2, "orange"], ["Parking", 0, 1, ""], ["Kentucky Avenue", 220, 2, "red"],
-    ["Chance", 0, 1, ""], ["Indiana Avenue", 220, 2, "red"], ["Illinois Avenue", 240, 2, "red"], ["B & O Railroad", 200, 2, "railroad"],
-    ["Atlantic Avenue", 260, 2, "yellow"], ["Ventnor Avenue", 260, 2, "yellow"], ["Water Works", 150, 2, "needs"],
-    ["Marvin Gardens", 280, 2, "yellow"], ["Go To Jail", 0, 1, ""], ["Pacific Avenue", 300, 2, "green"],
-    ["North Carolina Avenue", 300, 2, "green"], ["Community Chest", 0, 1, ""], ["Pennsylvania Avenue", 320, 2, "green"],
-    ["Short Line", 200, 2, "railroad"], ["Chance", 0, 1, ""], ["Park Place", 350, 2, "blue"], ["Luxury Tax", 100, 1, ""],
-    ["Boardwalk", 400, 2, "blue"]];
+const placesOnMap = [["Start", 0, 1, ""], ["Mediterranean Avenue", 60, 2, "brown", 0], ["Community Chest", 0, 1, ""],
+    ["Baltic Avenue", 60, 2, "brown", 0], ["Income Tax", 200, 1, ""], ["Reading Railroad", 200, 2, "railroad"],
+    ["Oriental Avenue", 100, 2, "lightbue", 0], ["Chance", 0, 1, ""], ["Vermont Avenue", 100, 2, "lightblue", 0],
+    ["Connecticut Avenue", 120, 2, "lightbue", 0], ["Jail", 0, 1, ""], ["St. Charles Place", 140, 2, "pink", 0],
+    ["Electric Company", 150, 2, "needs"], ["States Avenue", 140, 2, "pink", 0], ["Virginia Avenue", 160, 2, "pink", 0],
+    ["Pennsylvania Railroad", 200, 2, "railroad"], ["St. James Place", 180, 2, "orange", 0], ["Community Chest", 0, 1, ""],
+    ["Tennessee Avenue", 180, 2, "orange", 0], ["New York Avenue", 200, 2, "orange", 0], ["Parking", 0, 1, ""], ["Kentucky Avenue", 220, 2, "red", 0],
+    ["Chance", 0, 1, ""], ["Indiana Avenue", 220, 2, "red", 0], ["Illinois Avenue", 240, 2, "red", 0], ["B & O Railroad", 200, 2, "railroad"],
+    ["Atlantic Avenue", 260, 2, "yellow", 0], ["Ventnor Avenue", 260, 2, "yellow", 0], ["Water Works", 150, 2, "needs"],
+    ["Marvin Gardens", 280, 2, "yellow", 0], ["Go To Jail", 0, 1, ""], ["Pacific Avenue", 300, 2, "green", 0],
+    ["North Carolina Avenue", 300, 2, "green", 0], ["Community Chest", 0, 1, ""], ["Pennsylvania Avenue", 320, 2, "green", 0],
+    ["Short Line", 200, 2, "railroad"], ["Chance", 0, 1, ""], ["Park Place", 350, 2, "blue", 0], ["Luxury Tax", 100, 1, ""],
+    ["Boardwalk", 400, 2, "blue", 0]];
 
 const totalPropertiesByColor = {
     "brown": 2,
@@ -148,10 +142,8 @@ function updateDisplay() {
     document.querySelector("#whichPlayer").innerText = `Gracz ${currentPlayerIndex + 1} (${pawnsColors[currentPlayerIndex]})`;
     document.querySelector("#exactPlace").innerText = "Jestes na polu: " + placesOnMap[(player.getLocation()-1)][0];
     document.querySelector("#money").innerText = "Pieniadze: " + player.getMoney();
-    document.querySelector("#houses").innerText = `Kupione domy:\n ${player.getHause()} ${player.hauseLocation}`;
+    document.querySelector("#houses").innerText = "Kupione lokacje:\n" + player.getHause().join(", ");
 }
-
-// .join(", ")
 
 function movePlayer() {
     let movesQuantity = 6;
