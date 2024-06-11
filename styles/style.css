@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Schibsted Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    overflow: hidden;
+}
+
+#wrapper {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gamesetting {
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+}
+
+#board {
+    display: grid;
+    grid-template: 6.5vw repeat(9, 4vw) 6.5vw / 6.5vw repeat(9, 4vw) 6.5vw;
+    border: 1px solid black;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+}
+
+#boardImage {
+    width: 49vw;
+    height: 49.155vw;
+    background-size: cover;
+}
+
+.square {
+    border: 2px solid black;
+    background-size: contain;
+}
+
+.choice {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+}
+
+.players {
+    width: 0.5vw;
+    height: 0.5vw;
+    position: absolute;
+    display: none;
+    border: 1px solid black;
+    border-radius: 100%;
+}
+
+#playerInfo {
+    width: 20vw;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5vw;
+}
+
+#exactInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 0.5vw;
+}
+
+#buy {
+    position: absolute;
+    left: 2vw;
+    top: 2vw;
+    display: none;
+}
+
+#dice {
+    position: absolute;
+    left: 7vw;
+    top: 2vw;
+    display: none;
+}
+
+#turn {
+    position: absolute;
+    left: 2vw;
+    top: 4vw;
+    display: none;
+}
+
+#moves {
+    width: 1vw;
+    height: 1vw;
+    position: absolute;
+}
